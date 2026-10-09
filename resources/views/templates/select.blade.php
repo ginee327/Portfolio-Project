@@ -1,55 +1,67 @@
 {{-- Template selection for a saved portfolio. Expects $portfolio and $templates --}}
 <x-site-layout title="Choose a template">
-    <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
 
-        {{-- Progress steps --}}
-        <ol class="mx-auto mb-10 flex max-w-xl items-center justify-center gap-2 text-sm font-medium" aria-label="Progress">
-            <li class="flex items-center gap-2 text-emerald-600"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-100">1</span> Information</li>
-            <li class="h-px w-8 bg-slate-300"></li>
-            <li class="flex items-center gap-2 text-indigo-700"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-indigo-600 text-white">2</span> Template</li>
-            <li class="h-px w-8 bg-slate-300"></li>
-            <li class="flex items-center gap-2 text-slate-400"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100">3</span> Preview</li>
+        {{-- Progress: a real sequence, drawn as three segments --}}
+        <ol class="grid grid-cols-3 gap-3 text-sm" aria-label="Progress">
+            <li class="border-t-4 border-[var(--ink)] pt-3">
+                <span class="font-semibold text-[var(--ink)]">1. Information</span>
+                <span class="block text-[var(--muted)]">Done</span>
+            </li>
+            <li class="border-t-4 border-[var(--mark)] pt-3" aria-current="step">
+                <span class="font-semibold text-[var(--ink)]">2. Template</span>
+                <span class="block text-[var(--muted)]">You are here</span>
+            </li>
+            <li class="border-t-4 border-[var(--line)] pt-3">
+                <span class="font-semibold text-[var(--muted)]">3. Preview</span>
+            </li>
         </ol>
 
-        <div class="text-center">
-            <h1 class="text-3xl font-bold tracking-tight text-slate-900">Choose a template for {{ $portfolio->full_name }}</h1>
-            <p class="mt-2 text-slate-600">Preview any template with your own data, then select the one you like. You can change it later.</p>
+        <div class="mt-12 max-w-2xl">
+            <h1 class="font-display text-3xl font-extrabold text-[var(--ink)] sm:text-4xl">Choose a template for {{ $portfolio->full_name }}</h1>
+            <p class="mt-3 text-lg leading-relaxed text-[var(--muted)]">Preview any template with your own data, then select the one you like. You can change it later.</p>
         </div>
 
         @error('selected_template')
-            <div class="mx-auto mt-6 max-w-xl rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800" role="alert">{{ $message }}</div>
+            <div class="mt-6 max-w-xl rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800" role="alert">{{ $message }}</div>
         @enderror
 
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {{-- One template per row; the selected one is filled in deep green --}}
+        <div class="mt-10 space-y-4">
             @foreach ($templates as $key => $template)
                 @php $isCurrent = $portfolio->selected_template === $key; @endphp
-                <article class="flex flex-col rounded-3xl border bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg {{ $isCurrent ? 'border-indigo-500 ring-2 ring-indigo-500/30' : 'border-slate-200' }}">
-                    <x-template-thumb :template="$key" />
-                    <div class="flex-1 px-1 pb-2 pt-5">
-                        <div class="flex items-center justify-between gap-2">
-                            <h2 class="text-lg font-semibold text-slate-900">{{ $template['name'] }}</h2>
-                            @if ($isCurrent)<span class="rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-semibold text-indigo-700">Selected</span>@endif
-                        </div>
-                        <p class="mt-1 text-sm leading-relaxed text-slate-600">{{ $template['description'] }}</p>
+                <article class="flex flex-col gap-5 rounded-xl border p-4 sm:flex-row sm:items-center sm:gap-6 {{ $isCurrent ? 'border-[var(--deep)] bg-[var(--deep)] text-white' : 'border-[var(--line)] bg-[var(--surface)]' }}">
+                    <div class="w-full shrink-0 sm:w-56">
+                        <x-template-thumb :template="$key" />
                     </div>
-                    <div class="mt-3 flex gap-2">
-                        <a href="{{ route('portfolios.preview', [$portfolio, $key]) }}" class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3">
+                            <h2 class="font-display text-xl font-bold {{ $isCurrent ? 'text-white' : 'text-[var(--ink)]' }}">{{ $template['name'] }}</h2>
+                            @if ($isCurrent)<span class="rounded-md bg-[var(--mark)] px-2 py-0.5 text-xs font-bold text-[var(--deep)]">Selected</span>@endif
+                        </div>
+                        <p class="mt-1 text-sm leading-relaxed {{ $isCurrent ? 'text-[#c3d0cb]' : 'text-[var(--muted)]' }}">{{ $template['description'] }}</p>
+                    </div>
+
+                    <div class="flex shrink-0 gap-2">
+                        <a href="{{ route('portfolios.preview', [$portfolio, $key]) }}"
+                           class="inline-flex items-center justify-center gap-1.5 rounded-[0.6rem] border px-4 py-2.5 text-sm font-semibold transition {{ $isCurrent ? 'border-[#4a7a6d] text-white hover:border-white' : 'border-[var(--ink)] text-[var(--ink)] hover:bg-white' }}">
                             <x-icon name="eye" class="h-4 w-4" /> Preview
                         </a>
-                        <form method="POST" action="{{ route('portfolios.template.update', $portfolio) }}" class="flex-1">
+                        <form method="POST" action="{{ route('portfolios.template.update', $portfolio) }}">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="selected_template" value="{{ $key }}">
-                            <button type="submit" class="w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700">Select</button>
+                            <button type="submit" class="rounded-[0.6rem] px-4 py-2.5 text-sm font-semibold transition {{ $isCurrent ? 'bg-[var(--mark)] text-[var(--deep)] hover:brightness-95' : 'bg-[var(--ink)] text-white hover:bg-[var(--ink-soft)]' }}">{{ $isCurrent ? 'Continue' : 'Select' }}</button>
                         </form>
                     </div>
                 </article>
             @endforeach
         </div>
 
-        <div class="mt-8 flex justify-center gap-4 text-sm">
-            <a href="{{ route('portfolios.edit', $portfolio) }}" class="font-medium text-indigo-600 hover:text-indigo-800">&larr; Edit information</a>
-            <a href="{{ route('portfolios.index') }}" class="font-medium text-slate-500 hover:text-slate-800">My portfolios</a>
+        <div class="mt-8 flex gap-6 text-sm">
+            <a href="{{ route('portfolios.edit', $portfolio) }}" class="font-medium text-[var(--ink)] underline decoration-[var(--mark)] decoration-2 underline-offset-4">&larr; Edit information</a>
+            <a href="{{ route('portfolios.index') }}" class="font-medium text-[var(--muted)] hover:text-[var(--ink)]">My portfolios</a>
         </div>
     </section>
 </x-site-layout>

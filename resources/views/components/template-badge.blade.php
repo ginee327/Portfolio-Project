@@ -1,12 +1,12 @@
-{{-- Small colored pill showing which template a portfolio uses --}}
+{{-- Small pill showing which template a portfolio uses --}}
 @props(['template'])
 @php
     $styles = [
-        'simple'   => 'bg-slate-100 text-slate-700 ring-slate-200',
-        'modern'   => 'bg-indigo-50 text-indigo-700 ring-indigo-200',
-        'creative' => 'bg-fuchsia-50 text-fuchsia-700 ring-fuchsia-200',
+        'simple'   => 'bg-[#e1e7df] text-[#10312b] ring-[#c9d3c6]',
+        'modern'   => 'bg-[#10312b] text-white ring-[#10312b]',
+        'creative' => 'bg-[#f2b632] text-[#10312b] ring-[#e0a21f]',
     ];
 @endphp
-<span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles[$template] ?? $styles['simple'] }}">
+<span class="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ring-inset {{ $styles[$template] ?? $styles['simple'] }}">
     {{ config("portfolio.templates.{$template}.name", ucfirst($template)) }}
 </span>

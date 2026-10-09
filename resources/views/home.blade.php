@@ -1,90 +1,109 @@
 <x-site-layout title="Build your portfolio">
 
-    {{-- Hero section --}}
-    <section class="relative overflow-hidden">
-        <div class="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-50 via-white to-slate-50"></div>
-        <div class="absolute -top-24 left-1/2 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-violet-300/30 blur-3xl"></div>
-
-        <div class="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-28">
-            <x-logo class="mb-6" />
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
-                Turn your story into a
-                <span class="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">stunning portfolio</span>
+    {{-- Hero: headline on the left, a form-to-portfolio mock on the right --}}
+    <section class="mx-auto grid max-w-6xl items-center gap-14 px-4 pb-20 pt-14 sm:px-6 md:grid-cols-2 md:pt-24 lg:px-8">
+        <div>
+            <h1 class="font-display text-5xl font-extrabold leading-[1.02] text-[var(--ink)] sm:text-6xl">
+                One form in.<br>One portfolio out.
             </h1>
-            <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-                Enter your details once, pick one of three professionally designed templates, and preview your finished portfolio in seconds.
+            <p class="mt-6 max-w-md text-lg leading-relaxed text-[var(--muted)]">
+                Enter your details once, choose Simple, Modern, or Creative, and preview the finished portfolio straight away.
             </p>
-            <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a href="{{ route('portfolios.create') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:-translate-y-0.5 hover:shadow-xl sm:w-auto">
+            <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a href="{{ route('portfolios.create') }}" class="inline-flex items-center justify-center gap-2 rounded-[0.6rem] bg-[var(--ink)] px-6 py-3 font-semibold text-white transition hover:bg-[var(--ink-soft)]">
                     Create Portfolio <x-icon name="arrow-right" class="h-5 w-5" />
                 </a>
-                <a href="{{ route('templates.index') }}" class="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400 sm:w-auto">
+                <a href="{{ route('templates.index') }}" class="inline-flex items-center justify-center gap-2 rounded-[0.6rem] border border-[var(--ink)] px-6 py-3 font-semibold text-[var(--ink)] transition hover:bg-white">
                     <x-icon name="eye" class="h-5 w-5" /> View Templates
                 </a>
             </div>
         </div>
+
+        {{-- Decorative mock: what you type, and what you get --}}
+        <div class="relative mx-auto h-[26rem] w-full max-w-md" aria-hidden="true">
+            <div class="absolute left-0 top-0 w-[80%] rounded-xl border border-[var(--line)] bg-[var(--surface)] p-5">
+                <p class="text-xs text-[var(--muted)]">Your details</p>
+                <div class="mt-3 space-y-2.5 text-sm">
+                    <div class="flex justify-between border-b border-[var(--line)] pb-2"><span class="text-[var(--muted)]">Name</span><span class="font-semibold">Alex Rivera</span></div>
+                    <div class="flex justify-between border-b border-[var(--line)] pb-2"><span class="text-[var(--muted)]">Title</span><span class="font-semibold">Full-Stack Developer</span></div>
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                        <span class="rounded-md bg-[var(--chalk)] px-2 py-1 text-xs font-medium">PHP</span>
+                        <span class="rounded-md bg-[var(--chalk)] px-2 py-1 text-xs font-medium">Laravel</span>
+                        <span class="rounded-md bg-[var(--chalk)] px-2 py-1 text-xs font-medium">React</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-0 right-0 w-[72%] rounded-xl bg-[var(--ink)] p-6 text-white shadow-2xl shadow-[#10312b]/30">
+                <p class="text-xs text-[#9db0a9]">Your portfolio</p>
+                <p class="font-display mt-3 text-2xl font-bold leading-tight">Alex Rivera</p>
+                <p class="mt-1 text-sm text-[#c3d0cb]">Full-Stack Developer</p>
+                <div class="mt-5 h-1 w-12 rounded bg-[var(--mark)]"></div>
+                <div class="mt-5 grid grid-cols-2 gap-2">
+                    <div class="h-12 rounded-md bg-[var(--ink-soft)]"></div>
+                    <div class="h-12 rounded-md bg-[var(--ink-soft)]"></div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    {{-- Features section --}}
-    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-slate-900">Everything you need, nothing you don't</h2>
-            <p class="mt-3 text-slate-600">A simple flow from your details to a finished portfolio.</p>
-        </div>
-
-        @php
-            $features = [
-                ['icon' => 'document', 'title' => 'One guided form', 'text' => 'Add your education, skills, projects, experience, and links in a single organized form.'],
-                ['icon' => 'layout', 'title' => 'Three templates', 'text' => 'Choose between Simple, Modern, and Creative, each with its own distinct look.'],
-                ['icon' => 'eye', 'title' => 'Instant preview', 'text' => 'See your portfolio in any template before you decide, and switch whenever you like.'],
-                ['icon' => 'pencil', 'title' => 'Edit anytime', 'text' => 'Update your details or delete a portfolio whenever your career changes.'],
-                ['icon' => 'cloud', 'title' => 'Saved online', 'text' => 'Your data lives in an online database, so it is still there after you refresh.'],
-                ['icon' => 'shield', 'title' => 'Private accounts', 'text' => 'Sign in to manage your work. Only you can edit or delete your portfolios.'],
-            ];
-        @endphp
-
-        <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($features as $feature)
-                <div class="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-                    <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-600 group-hover:text-white">
-                        <x-icon :name="$feature['icon']" class="h-6 w-6" />
-                    </span>
-                    <h3 class="mt-4 text-lg font-semibold text-slate-900">{{ $feature['title'] }}</h3>
-                    <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ $feature['text'] }}</p>
+    {{-- How it works: a real sequence, so the numbers mean something --}}
+    <section class="border-y border-[var(--line)] bg-[var(--surface)]">
+        <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
+            @foreach ([
+                ['Enter your details', 'Education, skills, projects, experience, and links go into one guided form.'],
+                ['Pick a template', 'Choose Simple, Modern, or Creative. You can switch whenever you like.'],
+                ['Preview and edit', 'See the result right away, then update or delete it as your career changes.'],
+            ] as $i => [$title, $text])
+                <div>
+                    <p class="font-display text-5xl font-extrabold text-[var(--mark)]">{{ $i + 1 }}</p>
+                    <h3 class="font-display mt-3 text-xl font-bold text-[var(--ink)]">{{ $title }}</h3>
+                    <p class="mt-2 max-w-xs text-[var(--muted)]">{{ $text }}</p>
                 </div>
             @endforeach
         </div>
     </section>
 
-    {{-- Template teaser --}}
-    <section class="bg-white py-16">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div class="mx-auto max-w-2xl text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-900">Three looks, one portfolio</h2>
-                <p class="mt-3 text-slate-600">Same information, three completely different styles.</p>
-            </div>
-            <div class="mt-10 grid gap-6 md:grid-cols-3">
-                @foreach ($templates as $key => $template)
-                    <a href="{{ route('templates.demo', $key) }}" class="group block rounded-3xl border border-slate-200 bg-slate-50 p-4 transition hover:-translate-y-1 hover:shadow-lg">
-                        <x-template-thumb :template="$key" class="transition group-hover:scale-[1.02]" />
-                        <div class="px-1 pb-1 pt-4">
-                            <h3 class="font-semibold text-slate-900">{{ $template['name'] }}</h3>
-                            <p class="mt-1 text-sm text-slate-600">{{ $template['description'] }}</p>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
+    {{-- Templates: shown open on the page, no card boxes --}}
+    <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+        <div class="max-w-xl">
+            <h2 class="font-display text-3xl font-bold text-[var(--ink)] sm:text-4xl">Same information, three different looks</h2>
+            <p class="mt-3 text-[var(--muted)]">Open a demo to see each template with sample content.</p>
+        </div>
+        <div class="mt-12 grid gap-10 md:grid-cols-3">
+            @foreach ($templates as $key => $template)
+                <a href="{{ route('templates.demo', $key) }}" class="group block">
+                    <div class="overflow-hidden rounded-xl border border-[var(--line)] bg-[var(--surface)] p-3 transition group-hover:border-[var(--ink)]">
+                        <x-template-thumb :template="$key" />
+                    </div>
+                    <h3 class="font-display mt-4 text-xl font-bold text-[var(--ink)] underline decoration-transparent decoration-2 underline-offset-4 transition group-hover:decoration-[var(--mark)]">{{ $template['name'] }}</h3>
+                    <p class="mt-1 text-sm leading-relaxed text-[var(--muted)]">{{ $template['description'] }}</p>
+                </a>
+            @endforeach
         </div>
     </section>
 
-    {{-- Closing call to action --}}
-    <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-        <div class="rounded-3xl bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 px-6 py-12 text-center text-white shadow-xl">
-            <h2 class="text-3xl font-bold">Ready to show your work?</h2>
-            <p class="mx-auto mt-3 max-w-xl text-indigo-100">Create your portfolio in minutes and keep it updated as you grow.</p>
-            <a href="{{ route('portfolios.create') }}" class="mt-7 inline-flex items-center gap-2 rounded-2xl bg-white px-7 py-3.5 font-semibold text-indigo-700 shadow transition hover:-translate-y-0.5 hover:shadow-lg">
-                Create Portfolio <x-icon name="arrow-right" class="h-5 w-5" />
-            </a>
+    {{-- Good to know: a plain ruled list instead of a card grid --}}
+    <section class="border-t border-[var(--line)]">
+        <div class="mx-auto grid max-w-6xl gap-x-16 px-4 py-16 sm:px-6 md:grid-cols-[1fr_2fr] lg:px-8">
+            <h2 class="font-display text-3xl font-bold text-[var(--ink)]">Good to know</h2>
+            <dl class="mt-8 divide-y divide-[var(--line)] border-y border-[var(--line)] md:mt-0">
+                @foreach ([
+                    ['cloud',  'Saved online',     'Your data lives in an online database, so it is still there after you refresh.'],
+                    ['shield', 'Private accounts', 'Sign in to manage your work. Only you can edit or delete your portfolios.'],
+                    ['eye',    'Instant preview',  'See your portfolio in any template before you decide.'],
+                    ['pencil', 'Edit anytime',     'Update your details whenever something changes.'],
+                ] as [$icon, $term, $text])
+                    <div class="flex gap-4 py-5">
+                        <x-icon :name="$icon" class="mt-0.5 h-6 w-6 shrink-0 text-[var(--ink)]" />
+                        <div>
+                            <dt class="font-semibold text-[var(--ink)]">{{ $term }}</dt>
+                            <dd class="mt-1 text-sm text-[var(--muted)]">{{ $text }}</dd>
+                        </div>
+                    </div>
+                @endforeach
+            </dl>
         </div>
     </section>
+
 </x-site-layout>
